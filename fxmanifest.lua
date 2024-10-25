@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 use_experimental_fxv2_oal 'yes'
-author 'Kakarot'
+author 'Ticker'
 description 'Various small code snippets compiled into one resource for ease of use'
 version '1.4.0'
 
