@@ -1,6 +1,7 @@
+local ESX = exports['es_extended']:getSharedObject()
 RegisterCommand('record', function()
     StartRecording(1)
-    TriggerEvent('QBCore:Notify', Lang:t('editor.started'), 'success')
+    ESX.ShowNotification("Started Recording!")
 end, false)
 
 RegisterCommand('clip', function()
@@ -9,16 +10,16 @@ end, false)
 
 RegisterCommand('saveclip', function()
     StopRecordingAndSaveClip()
-    TriggerEvent('QBCore:Notify', Lang:t('editor.save'), 'success')
+    ESX.ShowNotification("Saved Recording!")
 end, false)
 
 RegisterCommand('delclip', function()
     StopRecordingAndDiscardClip()
-    TriggerEvent('QBCore:Notify', Lang:t('editor.delete'), 'error')
+    ESX.ShowNotification("Deleted Recording!")
 end, false)
 
 RegisterCommand('editor', function()
     NetworkSessionLeaveSinglePlayer()
     ActivateRockstarEditor()
-    TriggerEvent('QBCore:Notify', Lang:t('editor.editor'), 'error')
+    ESX.ShowNotification("Later aligator!")
 end, false)
