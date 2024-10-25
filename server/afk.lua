@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local ESX = exports['es_extended']:getSharedObject()
 
 RegisterNetEvent('KickForAFK', function()
 	DropPlayer(source, "You were kicked for being AFK")
