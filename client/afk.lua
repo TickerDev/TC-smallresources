@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local ESX = exports['es_extended']:getSharedObject()
 local isLoggedIn = LocalPlayer.state.isLoggedIn
 local checkUser = true
 local prevPos, time = nil, nil
@@ -13,28 +13,35 @@ local timeMinutes = {
     ['10'] = 'seconds',
 }
 
-local function updatePermissionLevel()
-    QBCore.Functions.TriggerCallback('qb-afkkick:server:GetPermissions', function(userGroups)
-        for k in pairs(userGroups) do
-            if Config.AFK.ignoredGroups[k] then
-                checkUser = false
-                break
-            end
-            checkUser = true
-        end
-    end)
-end
+ESX.TriggerServerCallback('qb-afkkick:server:GetPermissions', function(userGroups)
+    local checkUser = true -- Default to true, assume user can be kicked
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    for group in pairs(userGroups) do
+        if Config.AFK.ignoredGroups[group] then
+            checkUser = false -- User is in an ignored group
+            break
+        end
+    end
+
+    -- Now you can use checkUser to decide if the user should be kicked or not
+    if checkUser then
+        -- Logic for kicking the user for being AFK
+        print("User is not in an ignored group. Proceed with AFK kick.")
+    else
+        print("User is in an ignored group. No action taken.")
+    end
+end)
+
+RegisterNetEvent('ESX:Client:OnPlayerLoaded', function()
     updatePermissionLevel()
     isLoggedIn = true
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+RegisterNetEvent('ESX:Client:OnPlayerUnload', function()
     isLoggedIn = false
 end)
 
-RegisterNetEvent('QBCore:Client:OnPermissionUpdate', function()
+RegisterNetEvent('ESX:Client:OnPermissionUpdate', function()
     updatePermissionLevel()
 end)
 
@@ -51,9 +58,9 @@ CreateThread(function()
                             if time > 0 then
                                 local _type = timeMinutes[tostring(time)]
                                 if _type == 'minutes' then
-                                    QBCore.Functions.Notify(Lang:t('afk.will_kick') .. math.ceil(time / 60) .. Lang:t('afk.time_minutes'), 'error', 10000)
+                                    ESX.ShowNotification("You are AFK and will be kicked in "..math.ceil(time/60).." minute(s)!") 
                                 elseif _type == 'seconds' then
-                                    QBCore.Functions.Notify(Lang:t('afk.will_kick') .. time .. Lang:t('afk.time_seconds'), 'error', 10000)
+                                    ESX.ShowNotification("You are AFK and will be kicked in "..time.." seconds!") 
                                 end
                                 time -= 10
                             else
