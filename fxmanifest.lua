@@ -7,7 +7,6 @@ description 'Various small code snippets compiled into one resource for ease of 
 version '1.4.0'
 
 shared_scripts {
-    '@qb-core/shared/locale.lua',
     'locales/en.lua',
     'locales/*.lua',
     'config.lua'
