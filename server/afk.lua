@@ -1,9 +1,15 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent('KickForAFK', function()
-	DropPlayer(source, Lang:t("afk.kick_message"))
+	DropPlayer(source, "You were kicked for being AFK")
 end)
 
-QBCore.Functions.CreateCallback('qb-afkkick:server:GetPermissions', function(source, cb)
-    cb(QBCore.Functions.GetPermission(source))
+ESX.RegisterServerCallback('esx-afkkick:server:GetPermissions', function(source, cb)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if xPlayer then
+        cb(xPlayer.getGroup())
+    else
+        cb('user') -- or whatever default you want to return
+    end
 end)
+
