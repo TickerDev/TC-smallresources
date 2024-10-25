@@ -81,32 +81,6 @@ if Config.Disable.idleCamera then
     end)
 end
 
-RegisterNetEvent('QBCore:Client:DrawWeapon', function()
-    local sleep
-    while true do
-        sleep = 500
-        local ped = PlayerPedId()
-        local weapon = GetSelectedPedWeapon(ped)
-        if weapon ~= `WEAPON_UNARMED` then
-            if IsPedArmed(ped, 6) then
-                sleep = 0
-                DisableControlAction(1, 140, true)
-                DisableControlAction(1, 141, true)
-                DisableControlAction(1, 142, true)
-            end
-
-            if weapon == `WEAPON_FIREEXTINGUISHER` or weapon == `WEAPON_PETROLCAN` then
-                if IsPedShooting(ped) then
-                    SetPedInfiniteAmmo(ped, true, weapon)
-                end
-            end
-        else
-            break
-        end
-        Wait(sleep)
-    end
-end)
-
 CreateThread(function()
     local pedPool = GetGamePool('CPed')
     for _, v in pairs(pedPool) do
